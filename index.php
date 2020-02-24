@@ -1,23 +1,40 @@
 <?php 
-
+header("Content-type: text/plain");
 // 1. Logical Part
 // 1.1 An evil clown
 // The evil clown wants emoticons to have no more than one parenthesis in a row.
 // Write with PHP a function to help him with this.
 
 #first variant
-function clown($str) {
-	$sm = str_replace(')', '', $str);
-	return $sm.')';
+/**
+ * TE comment:
+ * function should replace '))' to ')' and '((' to '('
+ */
+/**
+ * MY comment: changed both versions of the Clown function and added a third.
+ * 
+ */
+function clown(string $string = '')
+{
+ $symbol = substr($string, -1);
+ for ($i = 0; $i < strlen($string); $i++) {
+  $clearString .= str_replace(['(', ')'], ['', ''], $string[$i]);
+ }
+
+ return $clearString . $symbol;
 }
- echo clown('+=)))))))'),'<br>';
+ echo clown('=))'). PHP_EOL;
  
 #second variant
-function clownOops ($str) {
+/**
+ * TE comment:
+ * function also should replace '((' not only '))'
+ */
+function clownOops (string $str, $n) {
 	$result = '';
 
 	for ($i=0; $i < strlen($str); $i++) {
-		if ($str[$i] === ')' && $str[$i + 1] === ')') {
+		if ($str[$i] === $n && $str[$i + 1] === $n) {
 			continue;
 		} else {
 			$result.= $str[$i];
@@ -26,25 +43,53 @@ function clownOops ($str) {
 	return $result;
 }
 
-echo clownOops('=))) $)))'), '<br>';
+/**
+ * TE comment:
+ * use PHP_EOL instead of '<br>'
+ */
+echo clownOops('=)))', ')'). PHP_EOL;
+
+function clownOopsThird(string $string = '') {
+	$lenghtString = strlen($string);
+
+	$clearString = '';
+	for ($i = 0; $i < $lenghtString; $i++) {
+		if ($i == $lenghtString - 1) {
+		$clearString .= $string[$i];
+		} elseif ($string[$i] === ')' || $string[$i] === '(') {
+			continue;
+			} else {
+				$clearString .= $string[$i];
+				}
+	}
+
+	return $clearString;
+}
+
+echo clownOopsThird('=))))))))))))') . PHP_EOL;
+echo clownOopsThird('=((((((((') . PHP_EOL;
 
 // 1.2 Lucky Tickets
 // The ticket number consists of 6 numbers. The ticket is lucky if the sum of the first three numbers
 // equals the sum of the next three numbers. Examples of such ticket numbers: 933591, 030300.
 // Write with PHP a function that returns all lucky numbers.
 
-function luckyTickets($lucky) {
-	$lucky = [];
-	foreach (range(0, 1000000) as $number) {
-		$str = str_pad($number, 6, '0', STR_PAD_LEFT);
-		$arr = str_split($str);
+/**
+ * TE comment:
+ * argument $lucky unnecessary here
+ */
+function luckyTickets($str) {
+	$str = [];
+	foreach (range(1, 1000000) as $number) {
+		$number = str_pad($number, 6, '0', STR_PAD_LEFT);
+		$arr = str_split($number);
 
 		$isEqual = $arr[0] + $arr[1] + $arr[2] === $arr[3] + $arr[4] + $arr[5];
 		if($isEqual) {
-			array_push($lucky, $str);
+			array_push($str, $number);
   		 }
 	}
-	return $lucky;
+	return $str;
 }
 
 // echo "<pre>";
@@ -56,7 +101,7 @@ function luckyTickets($lucky) {
 // Write with PHP a function with functional like strrev(). You should NOT use standard PHP functions. You can use oops and other language constructions.
 
 #first variant
-function myRevers($str) {
+function myRevers(string $str) {
     $rev = '';
     for ($i = mb_strlen($str); $i>=0; $i--) {
         $rev .= mb_substr($str, $i, 1);
@@ -64,15 +109,15 @@ function myRevers($str) {
     return $rev;
 }
 
-echo myRevers("Реверс"),'<br>';
+echo myRevers("Реверс"). PHP_EOL;
 
 #second variant
-function toRevers($str) {
+function toRevers(string $str) {
     $str = implode(array_reverse(str_split($str)));
     return $str;
 }
 
-echo toRevers("Lover"),'<br>';
+echo toRevers("Lover sssdsd"). PHP_EOL;
 
 
 // 2.2 Words in text
@@ -80,14 +125,14 @@ echo toRevers("Lover"),'<br>';
 // key, and value is how many times used the word in text. You need to normalize word (Word and
 // word should be the same key, you can use strlower() PHP function).
 
-// function getWords($text) {
-// 	$text = strtolower($text);
-// 	$notused = ["'", ",", ".", ";","\""];
-// 	$text = str_replace($notused, '', $text);
-// 	$text = explode(' ', $text);
-// 	$text = array_count_values($text);
-// 	return $text;
-// }
+function getWords($text) {
+	$text = strtolower($text);
+	$notused = ["'", ",", ".", ";","\""];
+	$text = str_replace($notused, '', $text);
+	$text = explode(' ', $text);
+	$text = array_count_values($text);
+	return $text;
+}
 // echo '<pre>';
 // print_r(getWords("After several days of rain that nearly floods Derry, Maine, five-year-old Georgie Denbrough goes
 // outside to play. He brings with him a paper boat his older brother, Bill, made for him while sick in
@@ -134,21 +179,21 @@ $arr = [ 12,24,
 			['2hello', 3, 7],
 ];
 
-echo '<pre>';
-print_r(_sum($arr));
-echo '</pre>';
+
+echo (_sum($arr)). PHP_EOL;
+
 
 // 2.4 Mirror Letters
 // The Wizzard decided to make a funny joke. He replaced all letters in words to their mirror letter (A
 // will be replaced on Z, B on Y, etc.). Write with PHP a function to help the wizzard to make this joke
 // real.
 
-function mirror($str) {
+function mirror(string $str) {
 	$mirror = ['a'=>'z', 'b'=>'y', 'c'=>'x', 'd'=>'w', 'e'=>'v', 'f'=>'u', 'g'=>'t', 'h'=>'s', 'i'=>'r', 'j'=>'q', 'k'=>'p', 'l'=>'o', 'm'=>'n', 'A'=>'Z', 'B'=>'Y', 'C'=>'X', 'D'=>'W', 'E'=>'V', 'F'=>'U', 'G'=>'T', 'H'=>'S', 'I'=>'R', 'J'=>'Q', 'K'=>'P', 'L'=>'O', 'M'=>'N'];
 	$result = str_replace(array_keys($mirror), array_values($mirror), $str);
 	return $result;
 }
-echo mirror('Hello, woung wizzard!').'<br>';
+echo mirror('Hello, woung wizzard!'). PHP_EOL;
 
 // 2.5 Unique words
 // Write with PHP a function getUniqueWords(string $text) that returns an array, with words which
