@@ -1,6 +1,6 @@
 <?php
 
-require_once "Collection.php";
+require_once "Collection/Collection.php";
 
 class Storage
 {
