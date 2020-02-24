@@ -44,7 +44,7 @@ class Collection
 	}
 
 	//Static method. Should remove all objects from collection
- //    public function removeAll($key) {
-	//    return unset($this->storage);
-	// }
+	public function removeAll($key) {
+		unset($this->storage);
+	}
 }
