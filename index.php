@@ -5,12 +5,14 @@
 // The evil clown wants emoticons to have no more than one parenthesis in a row.
 // Write with PHP a function to help him with this.
 
+#first variant
 function clown($str) {
 	$sm = str_replace(')', '', $str);
 	return $sm.')';
 }
  echo clown('+=)))))))'),'<br>';
-
+ 
+#second variant
 function clownOops ($str) {
 	$result = '';
 
@@ -31,25 +33,29 @@ echo clownOops('=))) $)))'), '<br>';
 // equals the sum of the next three numbers. Examples of such ticket numbers: 933591, 030300.
 // Write with PHP a function that returns all lucky numbers.
 
-function luckyTickets($str) {
-	for ($str = 1000000; $str < 2000000; $str++) {
-	    settype($str, 'string');
-	    $left = $str[1] + $str[2] + $str[3];
-	    $right = $str[4] + $str[5] + $str[6];
-	    if ($left == $right) {
-	        echo 'The ticket with number :' . $str . ' - Its Lucky Ticket <br>';
-	    }
+function luckyTickets($lucky) {
+	$lucky = [];
+	foreach (range(0, 1000000) as $number) {
+		$str = str_pad($number, 6, '0', STR_PAD_LEFT);
+		$arr = str_split($str);
+
+		$isEqual = $arr[0] + $arr[1] + $arr[2] === $arr[3] + $arr[4] + $arr[5];
+		if($isEqual) {
+			array_push($lucky, $str);
+  		 }
 	}
+	return $lucky;
 }
 
 // echo "<pre>";
-// print_r(luckyTickets($str));
+// var_dump(luckyTickets($lucky));
 // echo '</pre>';
 
 // 2. Arrays Part
 // 2.1 Reverse string
 // Write with PHP a function with functional like strrev(). You should NOT use standard PHP functions. You can use oops and other language constructions.
 
+#first variant
 function myRevers($str) {
     $rev = '';
     for ($i = mb_strlen($str); $i>=0; $i--) {
@@ -59,6 +65,14 @@ function myRevers($str) {
 }
 
 echo myRevers("Реверс"),'<br>';
+
+#second variant
+function toRevers($str) {
+    $str = implode(array_reverse(str_split($str)));
+    return $str;
+}
+
+echo toRevers("Lover"),'<br>';
 
 
 // 2.2 Words in text
